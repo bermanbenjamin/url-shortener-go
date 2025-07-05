@@ -7,11 +7,12 @@ import (
 )
 
 type ShortenerHandler struct {
-	gin *gin.Engine
+	gin     *gin.Engine
+	service *ShortenerService
 }
 
-func NewShortenerHandler(gin *gin.Engine) *ShortenerHandler {
-	return &ShortenerHandler{gin: gin}
+func NewShortenerHandler(gin *gin.Engine, service *ShortenerService) *ShortenerHandler {
+	return &ShortenerHandler{gin: gin, service: service}
 }
 
 func (h *ShortenerHandler) Shorten(c *gin.Context) {

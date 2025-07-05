@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/bermanbenjamin/go-shortener-url/config"
 	"github.com/bermanbenjamin/go-shortener-url/internal/shortener"
 
 	"github.com/gin-gonic/gin"
@@ -9,7 +10,10 @@ import (
 func main() {
 	r := gin.Default()
 
-	shortenerHandler := shortener.NewShortenerHandler(r)
+	config := config.NewConfig()
+	shortenerRepo := shortener.NewShortenerRepository(config.Client)
+	shortenerService := shortener.NewShortenerService(shortenerRepo)
+	shortenerHandler := shortener.NewShortenerHandler(r, &shortenerService)
 
 	r.POST("/shorten", shortenerHandler.Shorten)
 
