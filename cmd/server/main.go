@@ -13,7 +13,7 @@ func main() {
 	config := config.NewConfig()
 	shortenerRepo := shortener.NewShortenerRepository(config.Client)
 	shortenerService := shortener.NewShortenerService(shortenerRepo)
-	shortenerHandler := shortener.NewShortenerHandler(r, &shortenerService)
+	shortenerHandler := shortener.NewShortenerHandler(r, shortenerService)
 
 	r.POST("/shorten", shortenerHandler.Shorten)
 

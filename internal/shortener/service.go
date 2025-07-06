@@ -1,5 +1,7 @@
 package shortener
 
+import "github.com/google/uuid"
+
 type ShortenerService interface {
 	Shorten(shortenUrl ShortenURL) (string, error)
 	Get(code string) (string, error)
@@ -14,7 +16,8 @@ func NewShortenerService(repo ShortenerRepository) ShortenerService {
 }
 
 func (s *shortenerService) Shorten(shortenUrl ShortenURL) (string, error) {
-	return s.repo.Create(shortenUrl)
+	shortenUrl.Code = uuid.New().String()[:6]
+	return shortenUrl.Code, nil
 }
 
 func (s *shortenerService) Get(code string) (string, error) {

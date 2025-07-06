@@ -8,10 +8,10 @@ import (
 
 type ShortenerHandler struct {
 	gin     *gin.Engine
-	service *ShortenerService
+	service ShortenerService
 }
 
-func NewShortenerHandler(gin *gin.Engine, service *ShortenerService) *ShortenerHandler {
+func NewShortenerHandler(gin *gin.Engine, service ShortenerService) *ShortenerHandler {
 	return &ShortenerHandler{gin: gin, service: service}
 }
 
@@ -21,5 +21,14 @@ func (h *ShortenerHandler) Shorten(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	shortened, err := h.service.Shorten(shortenUrl)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"newURl": shortened})
 
 }
