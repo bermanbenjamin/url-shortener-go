@@ -17,7 +17,7 @@ func NewShortenerService(repo ShortenerRepository) ShortenerService {
 
 func (s *shortenerService) Shorten(shortenUrl ShortenURL) (string, error) {
 	shortenUrl.Code = uuid.New().String()[:6]
-	return shortenUrl.Code, nil
+	return s.repo.Create(shortenUrl)
 }
 
 func (s *shortenerService) Get(code string) (string, error) {

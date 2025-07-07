@@ -22,6 +22,8 @@ func NewConfig() *Config {
 
 	uri := viper.GetString("database.uri")
 
+	log.Println("Connect to uri:" + uri)
+
 	client, err := mongo.Connect(options.Client().ApplyURI(uri))
 	if err != nil {
 		log.Fatal(err)

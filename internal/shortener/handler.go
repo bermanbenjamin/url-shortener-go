@@ -22,13 +22,27 @@ func (h *ShortenerHandler) Shorten(c *gin.Context) {
 		return
 	}
 
-	shortened, err := h.service.Shorten(shortenUrl)
+	shortURL, err := h.service.Shorten(shortenUrl)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"newURl": shortened})
+	c.JSON(http.StatusCreated, gin.H{"shortURL": &ShortenResponse{shortURL}})
+
+}
+
+func (h *ShortenerHandler) Get(c *gin.Context) {
+	code := c.Params.ByName("code")
+
+	shortUrl, err := h.service.Get(code)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusAccepted, gin.H{"shortURL": &ShortenResponse{shortUrl}})
 
 }

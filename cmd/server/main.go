@@ -16,6 +16,7 @@ func main() {
 	shortenerHandler := shortener.NewShortenerHandler(r, shortenerService)
 
 	r.POST("/shorten", shortenerHandler.Shorten)
+	r.GET("/:code", shortenerHandler.Get)
 
-	r.Run(":8080")
+	r.Run(":" + config.Variables.GetString("server.port"))
 }
