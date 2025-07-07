@@ -43,6 +43,6 @@ func (h *ShortenerHandler) Get(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusAccepted, gin.H{"shortURL": &ShortenResponse{shortUrl}})
+	c.JSON(http.StatusAccepted, gin.H{"response": &ShortenResponse{shortUrl}})
 
 }

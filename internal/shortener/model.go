@@ -2,12 +2,8 @@ package shortener
 
 import "time"
 
-type ShortenRequest struct {
-	Code string `json:"code"`
-}
-
 type ShortenResponse struct {
-	ShortURL string `json:"short_url"`
+	Url string `json:"url"`
 }
 
 type ShortenURL struct {
