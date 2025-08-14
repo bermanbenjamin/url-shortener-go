@@ -27,8 +27,6 @@ func main() {
 	shortenerService := shortener.NewShortenerService(shortenerRepo, redisClient)
 	shortenerHandler := shortener.NewShortenerHandler(r, shortenerService)
 
-	r.Use(gin.Logger())
-	r.Use(gin.Recovery())
 	r.Use(cors.Default())
 	gin.SetMode(gin.ReleaseMode)
 

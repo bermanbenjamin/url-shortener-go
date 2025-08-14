@@ -2,6 +2,8 @@ package shortener
 
 import (
 	"context"
+	"log"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/redis/go-redis/v9"
@@ -27,6 +29,18 @@ func (s *shortenerService) Shorten(shortenUrl ShortenURL) (string, error) {
 }
 
 func (s *shortenerService) Get(code string) (string, error) {
-	s.redisClient.Get(context.Background(), "")
-	return s.repo.Get(code)
+	val, err := s.redisClient.Get(context.Background(), code).Result()
+	log.Println("Getting from redis: ", val)
+	if err == redis.Nil {
+		log.Println("Getting from repo: ", val)
+		val, err = s.repo.Get(code)
+		if err != nil {
+			return "", err
+		}
+		s.redisClient.Set(context.Background(), code, val, 2*time.Hour)
+	} else if err != nil {
+		return "", err
+	}
+
+	return val, nil
 }
